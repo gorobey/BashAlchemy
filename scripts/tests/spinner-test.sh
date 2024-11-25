@@ -11,7 +11,7 @@
 # Script:
 
 # Source the spinner.sh script
-source ../helpers/spinner.sh
+source ../../helpers/spinner.sh
 
 # Funzione di test (successo)
 long_running_command_success() {
