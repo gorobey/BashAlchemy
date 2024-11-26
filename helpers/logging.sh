@@ -37,6 +37,7 @@ log_message() {
             ;;
     esac
 
-    LOG_MSG="${color}$(date '+%Y-%m-%d %H:%M:%S') - $HOSTNAME - $message${NC}"
-    echo -e $LOG_MSG | tee -a $LOG_FILE
+    LOG_MSG="$(date '+%Y-%m-%d %H:%M:%S') - $HOSTNAME - $message"
+    MSG="${color}$LOG_MSG${NC}"
+    echo "$LOG_MSG" >> $LOG_FILE && echo -e $MSG
 }
