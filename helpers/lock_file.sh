@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Path dello script
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
+# Nome del file di lock dinamico
+SCRIPT_NAME=$(basename "$0" .sh)
+
 LOCK_FILE="$SCRIPT_DIR/${SCRIPT_NAME}.lock"
 
 # Funzione per rimuovere il file di lock
@@ -14,10 +19,14 @@ trap cleanup 0
 
 # Funzione per rimuovere tutti i file di lock manualmente
 clean_locks() {
+  # Termina tutti i processi lanciati dallo script
+  pkill -P $$
   # Rimuove tutti i file di lock
+  echo $SCRIPT_DIR
+
   rm -f $SCRIPT_DIR/*.lock
   if [ $? -eq 0 ]; then
-    log_message "info" "TT-SyncManager pronto per l'esecuzione."
+    log_message "info" "${SCRIPT_NAME} pronto per l'esecuzione."
   else
     log_message "error" "Errore durante la rimozione dei file di lock."
     exit 1
@@ -28,17 +37,10 @@ clean_locks() {
 lock_file() {
   # Controlla se il file di lock esiste
   if [ -f "$LOCK_FILE" ]; then
-    log_message "warning" "Esecuzione inibita, possibili cause:\n\r
-    1. un'altra istanza dello script è già in esecuzione.\n\r
-    2. l'ultima esecuzione dello script non è terminata correttamente.\n\r
-    -------------------\n\r
-    Per dettagli verifica il file di log:\n\r
-    $SCRIPT_DIR/ttsyncmanager.log\n\r
-    Per rimuovi il file di lock riesegui il comando usando l'opzione [clean]."
-
+    log_message "warning" "Sembra che un'altra istanza di ${SCRIPT_NAME} sia già in esecuzione. PID: $$"
     exit 1
   else
     # Crea il file di lock
-    touch $LOCK_FILE
+    echo $$ > $LOCK_FILE
   fi
 }
