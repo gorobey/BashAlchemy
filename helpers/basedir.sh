@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Directory degli helpers
-HELPERS_DIR=$(dirname "$(realpath "$BASH_SOURCE")")
+HELPERS_DIR=$(dirname "$(realpath "${BASH_SOURCE[0]}")")
 if [ -z "$HELPERS_DIR" ]; then
   echo "Errore: impossibile determinare la directory degli helpers."
   exit 1
