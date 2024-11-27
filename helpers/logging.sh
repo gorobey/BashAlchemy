@@ -11,7 +11,13 @@ GREEN='\033[0;32m'
 CYAN='\e[0;36m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
-LOG_FILE="$SCRIPT_DIR/ttsyncmanager.log"
+
+# Path dello script
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
+# Nome del file di lock dinamico
+SCRIPT_NAME=$(basename "$0" .sh)
+
+LOG_FILE="$SCRIPT_DIR/${SCRIPT_NAME}.log"
 
 # Funzione per loggare messaggi
 log_message() {
