@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-# Path dello script
-SCRIPT_DIR=$(dirname "$(realpath "$0")")
-# Nome del file di lock dinamico
-SCRIPT_NAME=$(basename "$0" .sh)
-
 LOCK_FILE="$SCRIPT_DIR/${SCRIPT_NAME}.lock"
 
 # Funzione per rimuovere il file di lock

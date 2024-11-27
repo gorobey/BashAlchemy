@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 #echo -e "\e[1mbold\e[0m"
 #echo -e "\e[3mitalic\e[0m"
 #echo -e "\e[3m\e[1mbold italic\e[0m"
@@ -11,11 +12,6 @@ GREEN='\033[0;32m'
 CYAN='\e[0;36m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
-
-# Path dello script
-SCRIPT_DIR=$(dirname "$(realpath "$0")")
-# Nome del file di lock dinamico
-SCRIPT_NAME=$(basename "$0" .sh)
 
 LOG_FILE="$SCRIPT_DIR/${SCRIPT_NAME}.log"
 

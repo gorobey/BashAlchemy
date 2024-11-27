@@ -3,8 +3,9 @@
 PORT=8083
 
 # Import helpers
-source "$(dirname "$0")/../../../helpers/logging.sh"
-source "$(dirname "$0")/../../../helpers/lock_file.sh"
+source "../../../helpers/basedir.sh"
+source "$HELPERS_DIR/logging.sh"
+source "$HELPERS_DIR/lock_file.sh"
 
 kill_existing_instances() {
   log_message "info" "Killing existing instances of the serve API"

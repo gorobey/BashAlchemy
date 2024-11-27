@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 
+# Import helpers
+source "basedir.sh"
+source "$HELPERS_DIR/logging.sh"
+source "$HELPERS_DIR/lock_file.sh"
+
 check_updates() {
-  # Aggiorna TT-SyncManager
+  # vai alla cartella dello script
   cd $SCRIPT_DIR || { log_message "error" "Errore qualquadra non cosa"; exit 1; }
 
   # Verifica se ci sono aggiornamenti disponibili
@@ -9,10 +14,10 @@ check_updates() {
   UPDATES=$(git status -uno 2>/dev/null | grep 'Your branch is behind')
 
   if [ -n "$UPDATES" ]; then
-    log_message "warning" "Sono presenti aggiornamenti, esegui '$SCRIPT_DIR/ttsyncmanager update'"
+    log_message "warning" "Sono presenti aggiornamenti, esegui '$0 update'"
     cleanup
   else
-    log_message "info" "TT-SyncManager è aggiornato"
+    log_message "info" "$0 è aggiornato"
     cleanup
   fi
 }
@@ -24,10 +29,20 @@ pull_updates() {
   # Perform git pull to fetch updates
   CMD=$(git pull origin master 2>&1)
   if [ $? -eq 0 ]; then
-    log_message "success" "TT-SyncManager aggiorrnato con successo"
+    log_message "success" "$0 aggiorrnato con successo"
     cleanup
   else
     log_message "error" "Errore durante git pull:\n\r$CMD"
     exit 1
   fi
 }
+
+# Controlla i parametri passati allo script
+case "$1" in
+  check)
+    check_updates
+    ;;
+  update)
+    pull_updates
+    ;;
+esac
