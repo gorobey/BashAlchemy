@@ -16,7 +16,7 @@ if [ ! -f "$video_file" ]; then
 fi
 
 # Estrai il nome del file senza estensione
-output_file="~/Video/gifs/$(basename "${video_file%.*}.gif")"
+output_file="$HOME/Video/gifs/$(basename "${video_file%.*}.gif")"
 
 # Crea la cartella di destinazione se non esiste
 mkdir -p $HOME/Video/gifs
