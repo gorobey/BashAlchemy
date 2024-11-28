@@ -6,7 +6,8 @@ white_noise="https://radioincorso.it/assets/audio/white-noise.ogg"
 
 # Function to get HTTP headers
 get_headers() {
-  curl -sI "$1"
+  local tcp_format="/dev/tcp/$(echo "$1" | awk -F[/:] '{print $4}')/$(echo "$1" | awk -F[/:] '{print ($5 ? $5 : 80)}')"
+  timeout 2 bash -c "<$tcp_format" && echo "200 OK" || echo "404 Not Found"
 }
 
 # Check the first stream
