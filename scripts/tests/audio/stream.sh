@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 stream_mb="https://nr14.newradio.it:8631/stream?ext=.mp3?$(shuf -i 1-100000 -n 1)"
 stream_zara="http://streaming.radiofragola.com:8000/test.ogg?$(shuf -i 1-100000 -n 1)"
