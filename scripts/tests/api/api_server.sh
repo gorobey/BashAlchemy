@@ -16,16 +16,23 @@ status_server() {
   exit 1
 }
 
-kill_server() {
+stop_server() {
   log_message "info" "Killing existing instances of the serve API"
   fuser -k $PORT/tcp
   cleanup
   pkill -f "$(basename "$0")"
 }
 
+check_status() {
+  if lsof -i:$PORT > /dev/null; then
+    log_message "success" "API server is running on port $PORT"
+  else
+    start_server &
+  fi
+}
+
 start_server() {
   lock_file
-  log_message "info" "Starting API server..."
   while true; do
     log_message "info" "Checking if API server is already running..."
     if ! lsof -i:$PORT > /dev/null; then
@@ -42,20 +49,20 @@ start_server() {
 
 # Controlla i parametri passati allo script
 case "$1" in
-  kill)
-    kill_server
+  stop)
+    stop_server
     ;;
   status)
     status_server
     ;;
   start)
-    start_server
+    check_status
     ;;
 esac
 
 trap cleanup EXIT
 
-source api_commands.sh
+source "$SCRIPT_DIR/api_commands.sh"
 
 # Check if the script was called with an argument
 if [ "$1" == "handle_request" ]; then
