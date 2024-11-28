@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#usage: echo '{"command": "get_now_playing"}' | socat - TCP:localhost:12345
+#usage: echo '{"command": "get_now_playing"}' | socat - TCP:localhost:8083
 
 # Leggi la richiesta dalla connessione socket
 read request

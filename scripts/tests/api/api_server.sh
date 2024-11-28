@@ -23,16 +23,9 @@ stop_server() {
   pkill -f "$(basename "$0")"
 }
 
-check_status() {
-  if lsof -i:$PORT > /dev/null; then
-    log_message "success" "API server is running on port $PORT"
-  else
-    start_server &
-  fi
-}
-
 start_server() {
   lock_file
+  log_message "info" "Starting API server..."
   while true; do
     log_message "info" "Checking if API server is already running..."
     if ! lsof -i:$PORT > /dev/null; then
@@ -56,7 +49,7 @@ case "$1" in
     status_server
     ;;
   start)
-    check_status
+    start_server &
     ;;
 esac
 
