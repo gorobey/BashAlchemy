@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 
-stream_mb="https://nr14.newradio.it:8631/stream?ext=.mp3?$(shuf -i 1-100000 -n 1)"
-stream_zara="http://streaming.radiofragola.com:8000/test.ogg?$(shuf -i 1-100000 -n 1)"
-white_noise="https://radioincorso.it/assets/audio/white-noise.ogg"
+# Import helpers
+source "$HOME/Scripts/helpers/basedir.sh"
+source "$HELPERS_DIR/logging.sh"
+source "$HELPERS_DIR/term_messages.sh"
+source "$HELPERS_DIR/lock_file.sh"
+
+stream_mb="http://livex.radiopopolare.it:80/radiopop"
+stream_zara="http://livex.radiopopolare.it:80/radiopop"
+white_noise="$SCRIPT_DIR/white-noise.ogg"
 
 # Function to get HTTP headers
 get_headers() {
-  local tcp_format="/dev/tcp/$(echo "$1" | awk -F[/:] '{print $4}')/$(echo "$1" | awk -F[/:] '{print ($5 ? $5 : 80)}')"
+  local tcp_format
+  tcp_format="/dev/tcp/$(echo "$1" | awk -F[/:] '{print $4}')/$(echo "$1" | awk -F[/:] '{print ($5 ? $5 : 80)}')"
   timeout 2 bash -c "<$tcp_format" && echo "200 OK" || echo "404 Not Found"
 }
 
@@ -36,6 +43,8 @@ UP add volume 5
 DOWN add volume -5
 s stop
 EOL
+
+ffprobe $url
 
 # Play the audio stream with mpv and custom input configuration
 mpv --input-ipc-server=/tmp/mpvsocket --input-conf=input.conf "$url"
