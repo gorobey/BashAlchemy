@@ -38,7 +38,7 @@ start_server() {
     sleep 1
     exit_code=$?
     if [[ "$(tail -n 1 "$LOG_FILE")" == *"Stopping server API"* ]]; then
-      log_message "error" "Server crashed with exit code $?. Restarting..."
+      log_message "error" "Server crashed with exit code $exit_code. Restarting..."
     fi
   done
 }
