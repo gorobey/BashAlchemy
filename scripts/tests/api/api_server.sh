@@ -3,7 +3,7 @@
 PORT=8083
 
 # Import helpers
-source "/home/goro/Scripts/helpers/basedir.sh"
+source "$HOME/Scripts/helpers/basedir.sh"
 source "$HELPERS_DIR/logging.sh"
 source "$HELPERS_DIR/term_messages.sh"
 source "$HELPERS_DIR/lock_file.sh"
