@@ -10,18 +10,18 @@ handle_request() {
   case "$command" in
     "get_time")
       response=$(date +%s)
+      echo "{\"response\": \"$response\"}"
       ;;
     "get_date")
       response=$(date +%Y-%m-%d)
+      echo "{\"response\": \"$response\"}"
       ;;
     "get_now_playing")
       response=$(bash ../audio/now_playing.sh)
+      echo "$response"
       ;;
     *)
-      response="Unknown command"
+        echo '{"response": "Unknown command"}'
       ;;
   esac
-
-  # Return the response as JSON
-  echo "{\"response\": \"$response\"}"
 }
