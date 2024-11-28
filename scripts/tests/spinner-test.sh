@@ -18,14 +18,14 @@ long_running_command_success() {
   echo "Starting a long-running command (success)..."
   sleep 1
   # Usa exec_mcd per catturare e stampare l'output
-  exec echo "Long-running command completed successfully"
+  exec_mcd echo "Long-running command completed successfully"
 }
 
 # Funzione di test (errore)
 long_running_command_error() {
   echo "Starting a long-running command (error)..."
   sleep 2
-  exec cp /path/to/nonexistent/file /path/to/destination/
+  exec_mcd cp /path/to/nonexistent/file /path/to/destination/
 }
 
 # Run the long-running commands with the spinner

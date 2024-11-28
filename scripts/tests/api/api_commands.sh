@@ -14,10 +14,6 @@ handle_request() {
     "get_date")
       response=$(date +%Y-%m-%d)
       ;;
-    "echo")
-      message=$(echo "$request" | jq -r '.message')
-      response="$message"
-      ;;
     "get_now_playing")
       response=$(bash ../audio/now_playing.sh)
       ;;
