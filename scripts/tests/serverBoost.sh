@@ -60,13 +60,15 @@ update_swap_file () {
   mkswap /swapfile
   swapon /swapfile
 }
-
 run_with_spinner offswap
 run_with_spinner onswap
-run_with_spinner disable_thp
+#run_with_spinner disable_thp
 run_with_spinner adjust_dirty_ratio
 run_with_spinner set_overcommit_memory
 run_with_spinner enable_tcp_bbr
+run_with_spinner update_swap_file
+run_with_spinner update_swap_file
+
 
 # altre ottimizzazioni per il server (4GB di ram)
 echo "Applying other optimizations..."
