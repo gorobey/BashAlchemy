@@ -52,9 +52,10 @@ enable_tcp_bbr () {
 
 # Function to update the existing swap file to 8 GB
 update_swap_file () {
-  echo "Updating the existing swap file to 8 GB..."
+  echo "Updating the existing swap file to 4 GB..."
   swapoff /swapfile
-  fallocate -l 4G /swapfile
+  rm /swapfile
+  dd if=/dev/zero of=/swapfile bs=1M count=4096
   chmod 600 /swapfile
   mkswap /swapfile
   swapon /swapfile
