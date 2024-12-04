@@ -44,7 +44,7 @@ DOWN add volume -5
 s stop
 EOL
 
-ffprobe $url
+#ffprobe $url
 
 # Play the audio stream with mpv and custom input configuration
 mpv --input-ipc-server=/tmp/mpvsocket --input-conf=input.conf "$url"
