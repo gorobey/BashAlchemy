@@ -1,0 +1,15 @@
+[Unit]
+Description=Monitor and handle lid events
+After=multi-user.target
+
+[Service]
+ExecStart=/usr/local/bin/lid-switch.sh
+Restart=always
+# Non dipendere da un utente loggato, esegui come root
+User=root
+Group=root
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/home/root/.Xauthority
+
+[Install]
+WantedBy=multi-user.target
