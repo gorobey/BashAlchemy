@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 #echo -e "\e[1mbold\e[0m"
 #echo -e "\e[3mitalic\e[0m"
 #echo -e "\e[3m\e[1mbold italic\e[0m"
@@ -7,13 +6,14 @@
 #echo -e "\e[9mstrikethrough\e[0m"
 
 # Colori
+BG_PURPLE='\033[45m'
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 CYAN='\e[0;36m'
 YELLOW='\033[0;33m'
+WHITE='\033[0;37m'
 NC='\033[0m' # No Color
-
-LOG_FILE="$SCRIPT_DIR/${SCRIPT_NAME}.log"
+LOG_FILE="$SCRIPT_DIR/ttsyncmanager.log"
 
 # Funzione per loggare messaggi
 log_message() {
@@ -22,6 +22,12 @@ log_message() {
     local color
 
     case $type in
+        taskset)
+            color=$BG_PURPLE
+            ;;
+        stack)
+            color=$WHITE
+            ;;
         info)
             color=$CYAN
             ;;
@@ -39,7 +45,17 @@ log_message() {
             ;;
     esac
 
-    LOG_MSG="$(date '+%Y-%m-%d %H:%M:%S') - $HOSTNAME - $message"
-    MSG="${color}$LOG_MSG${NC}"
-    echo "$LOG_MSG" >> $LOG_FILE && echo -e $MSG
+    LOG_MSG="${color}$(date '+%Y-%m-%d %H:%M:%S') - $HOSTNAME - $message${NC}"
+    echo -e $LOG_MSG | tee -a $LOG_FILE
+}
+
+
+
+
+show_log() {
+    if [ -f "$LOG_FILE" ]; then
+        cat $LOG_FILE
+    else
+        log_message "warning" "Nessun log disponibile."
+    fi
 }

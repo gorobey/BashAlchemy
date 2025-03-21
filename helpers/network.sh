@@ -69,20 +69,16 @@ check_remote_server() {
   local timeout=5
 
   if [ -z "$server" ] || [ -z "$port" ]; then
-    echo "Usage: check_remote_server <server> <port>"
     return 1
   fi
 
   if ! command -v nc &> /dev/null; then
-    echo "Error: nc (netcat) is not installed. Install nc to use this function."
     return 2
   fi
 
   if nc -z -w$timeout $server $port; then
-#    echo "Server $server on port $port is reachable."
     return 3
   else
-#    echo "Server $server on port $port is unreachable."
     return 4
   fi
 }
