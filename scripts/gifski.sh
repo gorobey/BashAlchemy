@@ -3,6 +3,9 @@
 # Mostra una finestra iniziale con una casella di trascinamento file
 video_file=$(zenity --title="Convertitore Video a GIF" --text="Trascina un file video nella casella sottostante" --entry --width=600 | tr -d '\r')
 
+# Rimuovi "file://" se presente e decodifica gli spazi
+video_file=$(echo "$video_file" | sed 's|^file://||' | sed 's/%20/ /g')
+
 # Controlla se un file è stato selezionato
 if [ -z "$video_file" ]; then
   zenity --error --text="Nessun file selezionato."
@@ -16,7 +19,13 @@ if [ ! -f "$video_file" ]; then
 fi
 
 # Estrai il nome del file senza estensione
-output_file="$HOME/Video/gifs/$(basename "${video_file%.*}.gif")"
+base_name=$(basename "${video_file%.*}")
+
+# Ripulisci il nome (mantieni solo lettere, numeri, trattini e underscore)
+safe_name=$(echo "$base_name" | sed 's/[^a-zA-Z0-9_-]/_/g')
+
+# Costruisci il path di output
+output_file="$HOME/Video/gifs/${safe_name}.gif"
 
 # Crea la cartella di destinazione se non esiste
 mkdir -p $HOME/Video/gifs
@@ -34,7 +43,7 @@ fi
   gifski --fps "$fps" -o "$output_file" "$video_file" | while IFS= read -r line; do
     echo "# $line"
   done
-) | zenity --progress --title="Conversione in corso" --text="Conversione del video in GIF..." --percentage=0 --auto-close
+) | zenity --progress --title="Conversione in corso" --text="Conversione del video in GIF..." --width=600 --percentage=0 --auto-close
 
 # Controlla se la conversione è riuscita
 if [ $? -eq 0 ]; then
