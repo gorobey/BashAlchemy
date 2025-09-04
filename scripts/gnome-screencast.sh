@@ -18,6 +18,11 @@ toggle_unsafe_with_gdb() {
 
   if ! command -v gdb >/dev/null 2>&1; then
     echo "[!] gdb non trovato. Installa gdb e riprova."
+    # chiedi se vuole installare gdb
+    read -p "[?] Vuoi installare gdb? (y/n): " install_gdb
+    if [[ $install_gdb == "y" ]]; then
+      sudo apt-get install gdb
+    fi
     exit 1
   fi
 
