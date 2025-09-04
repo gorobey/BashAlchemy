@@ -46,5 +46,8 @@ gdbus call --session \
   --object-path /org/gnome/Shell \
   --method org.gnome.Shell.Eval 'Main.screenshotUI.open();'
 
+# Attendi per assicurarti che la UI sia aperta
+sleep 2
+
 # Disabilita unsafe_mode
 toggle_unsafe_with_gdb false
